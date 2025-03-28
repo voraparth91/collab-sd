@@ -1,0 +1,181 @@
+.collaborative-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.collaboration-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.dot.connected {
+  background-color: #4caf50; /* Green */
+}
+
+.dot.connecting {
+  background-color: #ffc107; /* Amber */
+  animation: pulse 1.5s infinite;
+}
+
+.dot.offline {
+  background-color: #ff9800; /* Orange */
+}
+
+.status-connected {
+  color: #2e7d32; /* Dark green */
+}
+
+.status-connecting {
+  color: #ff8f00; /* Dark amber */
+}
+
+.status-offline {
+  color: #e65100; /* Dark orange */
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* Add a pulsing animation for the offline dot */
+.dot.offline {
+  animation: pulse-offline 2s infinite;
+}
+
+@keyframes pulse-offline {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.editor-container {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* CodeMirror overrides */
+.collaborative-editor .CodeMirror {
+  height: 100%;
+  font-family: "Source Code Pro", monospace;
+  font-size: 14px;
+}
+
+/* Cursor and selection styles for different users */
+.collaborative-editor .remote-caret {
+  position: absolute;
+  border-left: 2px solid;
+  height: 1.2em;
+  margin-left: -1px;
+  box-sizing: border-box;
+}
+
+.collaborative-editor .remote-caret > div {
+  position: absolute;
+  top: -1.4em;
+  left: -2px;
+  font-size: 12px;
+  background-color: rgb(250, 129, 0);
+  white-space: nowrap;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  user-select: none;
+}
+
+/* Style for active line highlight */
+.collaborative-editor .CodeMirror-activeline-background {
+  background-color: rgba(0, 0, 255, 0.05) !important;
+}
+
+/* Make the active line background color a bit more noticeable when focused */
+.collaborative-editor .CodeMirror-focused .CodeMirror-activeline-background {
+  background-color: rgba(0, 0, 255, 0.08) !important;
+}
+
+/* Autocomplete styling */
+.CodeMirror-hints {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+  font-family: monospace;
+  max-height: 20em;
+  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.CodeMirror-hint {
+  margin: 0;
+  padding: 4px 8px;
+  border-radius: 2px;
+  white-space: pre;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.CodeMirror-hint-active {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+/* Different colors for different types of suggestions */
+.CodeMirror-hint[data-type="keyword"] {
+  color: #0033cc;
+}
+
+.CodeMirror-hint[data-type="participant"] {
+  color: #008000;
+}
+
+.CodeMirror-hint[data-type="arrow"] {
+  color: #666;
+  font-weight: bold;
+}
+
+/* Add a subtle hover effect */
+.CodeMirror-hint:hover {
+  background-color: #f5f5f5;
+} 

@@ -1,0 +1,267 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  color: white;
+  padding: 16px;
+  position: relative;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.session-info {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+.session-info code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 0 8px;
+  font-family: monospace;
+}
+
+.share-button, .download-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.share-button {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.share-button:hover {
+  background-color: #4fa8cc;
+}
+
+.share-button:active {
+  background-color: #3d8ba9;
+}
+
+.download-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-left: 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: #3e8e41;
+}
+
+.download-button:active {
+  background-color: #306c34;
+}
+
+.button-icon {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.split-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.panel {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.left-panel {
+  background-color: #f5f7fa;
+  border-right: 1px solid #dee2e6;
+}
+
+.right-panel {
+  background-color: white;
+  overflow: auto;
+}
+
+.divider {
+  width: 8px;
+  height: 100%;
+  background-color: #e9ecef;
+  cursor: col-resize;
+  transition: background-color 0.2s;
+}
+
+.divider:hover, .divider:active {
+  background-color: #adb5bd;
+}
+
+/* Editor container */
+.editor-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* CodeMirror specific styling for v5 */
+.CodeMirror {
+  height: 100% !important;
+  width: 100% !important;
+  font-family: monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  background-color: #f8f9fa !important;
+  text-align: left !important;
+}
+
+.CodeMirror-scroll {
+  height: 100% !important;
+}
+
+.CodeMirror-gutters {
+  border-right: 1px solid #e9ecef !important;
+  background-color: #f0f2f4 !important;
+  width: 45px !important;
+}
+
+.CodeMirror-linenumber {
+  color: #999 !important;
+  text-align: right !important;
+  padding: 0 8px !important;
+}
+
+.CodeMirror-lines {
+  padding: 4px 0 !important;
+}
+
+.CodeMirror pre.CodeMirror-line, 
+.CodeMirror pre.CodeMirror-line-like {
+  padding: 0 8px !important;
+}
+
+.CodeMirror-cursor {
+  border-left: 2px solid #0a84ff !important;
+}
+
+/* Syntax highlighting colors to match the image */
+.cm-keyword {
+  color: #0000FF !important; /* Blue for keywords like 'title', 'note' */
+}
+
+.cm-variable-2 {
+  color: #008000 !important; /* Green for participant names like 'Alice', 'Bob' */
+}
+
+.cm-operator {
+  color: #5f5f5f !important; /* Darker color for arrows */
+}
+
+.cm-string {
+  color: #a31515 !important; /* Reddish for strings */
+}
+
+/* Diagram container */
+.diagram-container {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  overflow: auto;
+  display: block;
+}
+
+.diagram-container svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.mermaid {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.error {
+  color: #e74c3c;
+  text-align: left;
+  padding: 20px;
+  border: 1px solid #e74c3c;
+  background-color: #fcf0f0;
+  border-radius: 4px;
+  font-family: monospace;
+  margin: 20px;
+  max-width: 600px;
+}
+
+/* Diagram error overlay */
+#diagram-error-overlay {
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+  color: #e74c3c;
+  text-align: left;
+  padding: 15px;
+  border: 1px solid #e74c3c;
+  background-color: rgba(252, 240, 240, 0.95);
+  border-radius: 4px;
+  font-family: monospace;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#diagram-error-overlay h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+#diagram-error-overlay pre {
+  margin: 10px 0;
+  white-space: pre-wrap;
+  font-size: 12px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  overflow-x: auto;
+}
+
+.editor-note {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+  font-style: italic;
+} 

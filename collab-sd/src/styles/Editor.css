@@ -1,0 +1,96 @@
+.editor-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Core CodeMirror styles - make sure it's fully visible and interactive */
+.CodeMirror {
+  width: 100% !important;
+  height: 100% !important;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  pointer-events: auto !important;
+}
+
+/* Make cursor visible */
+.CodeMirror-cursor {
+  border-left: 2px solid black !important;
+}
+
+/* Ensure no elements block interaction */
+.CodeMirror-scroll,
+.CodeMirror-sizer,
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber {
+  pointer-events: auto !important;
+}
+
+/* Remote elements should never block interaction */
+.remote-caret, 
+.remote-selection {
+  pointer-events: none !important;
+}
+
+/* Style for the collaborative mode indicator */
+.collaborative-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(46, 204, 113, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Style for remote cursors and selections */
+.remote-caret {
+  position: absolute;
+  border-left: 2px solid;
+  height: 1.2em;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.remote-caret > div {
+  position: relative;
+  top: -1.2em;
+  font-size: 12px;
+  background-color: rgb(250, 129, 0);
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  user-select: none;
+  color: white;
+  padding: 2px 6px;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+
+.remote-selection {
+  background-color: rgba(250, 129, 0, 0.3);
+}
+
+/* Hide textarea used for initialization */
+.editor-container textarea {
+  display: none;
+} 

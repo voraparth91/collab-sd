@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Additional global styles */
+* {
+  box-sizing: border-box;
+}
+
+/* For the diagram rendering */
+.sequence-diagram {
+  width: 100%;
+  height: 100%;
+}
+
+/* CodeMirror customizations */
+.cm-editor {
+  height: 100% !important;
+  width: 100% !important;
+  font-size: 14px !important;
+}
+
+.cm-scroller {
+  overflow: auto;
+  height: 100% !important;
+}
+
+/* Cursor/User awareness styles for collaborative editing */
+.cm-ySelectionInfo {
+  position: absolute;
+  top: -1.4em;
+  left: -0.1em;
+  font-size: 0.8em;
+  padding: 0 0.4em;
+  border-radius: 4px;
+  z-index: 100;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+} 
