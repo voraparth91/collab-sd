@@ -3,7 +3,7 @@ import { WebsocketProvider } from 'y-websocket';
 import { v4 as uuidv4 } from 'uuid';
 
 // WebSocket server URL
-const WEBSOCKET_SERVER = 'ws://collab-sd-production.up.railway.app/';
+const WEBSOCKET_SERVER = 'wss://collab-sd-production.up.railway.app/';
 console.log('WebSocket server URL:', WEBSOCKET_SERVER);
 
 // Client ID - persistent for the browser session

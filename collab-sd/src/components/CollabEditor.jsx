@@ -62,7 +62,7 @@ const defineSequenceDiagramMode = () => {
 
 // Dynamically determine WebSocket URL based on current domain
 // const WEBSOCKET_SERVER = `ws://${window.location.hostname}:1234`;
-const WEBSOCKET_SERVER = `ws://collab-sd-production.up.railway.app/`;
+const WEBSOCKET_SERVER = `wss://collab-sd-production.up.railway.app/`;
 
 // Sequence diagram keywords and symbols
 const KEYWORDS = [
