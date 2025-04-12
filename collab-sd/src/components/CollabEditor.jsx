@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef, useCallback } from 'react';
 import CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/eclipse.css';
@@ -173,7 +173,28 @@ const CollabEditor = forwardRef(({ code, setCode, initialCursor, roomId }, ref) 
   const [collaborationStatus, setCollaborationStatus] = React.useState('connecting');
   const [connectedUsers, setConnectedUsers] = React.useState(1);
 
-  // Expose methods to get and set cursor position
+  // Add method to insert code at cursor position
+  const insertCodeAtCursor = useCallback((codeToInsert) => {
+    if (codeMirrorRef.current) {
+      const cursor = codeMirrorRef.current.getCursor();
+      const doc = codeMirrorRef.current.getDoc();
+      
+      // Insert the code at cursor position
+      doc.replaceRange(codeToInsert, cursor);
+      
+      // Move cursor to end of inserted text
+      const newCursor = {
+        line: cursor.line + codeToInsert.split('\n').length - 1,
+        ch: codeToInsert.split('\n').pop().length
+      };
+      codeMirrorRef.current.setCursor(newCursor);
+      
+      // Focus the editor
+      codeMirrorRef.current.focus();
+    }
+  }, []);
+
+  // Expose methods through ref
   useImperativeHandle(ref, () => ({
     getCursorPosition: () => {
       if (codeMirrorRef.current) {
@@ -190,7 +211,8 @@ const CollabEditor = forwardRef(({ code, setCode, initialCursor, roomId }, ref) 
         codeMirrorRef.current.setCursor(position);
         codeMirrorRef.current.focus();
       }
-    }
+    },
+    insertCodeAtCursor
   }));
 
   // Define the custom mode once when the component mounts

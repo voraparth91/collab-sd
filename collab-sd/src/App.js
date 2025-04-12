@@ -5,6 +5,7 @@ import './App.css';
 import './styles/CollabEditor.css';
 import CollabEditor from './components/CollabEditor';
 import DiagramRenderer from './components/DiagramRenderer';
+import DiagramToolbar from './components/DiagramToolbar';
 import { generateUUID } from './utils/collabUtils';
 import { exportDiagramAsJPEG } from './utils/exportUtils';
 
@@ -191,58 +192,57 @@ Bob-->>John: Jolly good!`;
     }
   }, []);
 
+  // Handle code insertion from toolbar
+  const handleInsertCode = useCallback((code) => {
+    if (editorRef.current) {
+      editorRef.current.insertCodeAtCursor(code);
+    }
+  }, []);
+
+  // Handle share button click
+  const handleShare = useCallback(() => {
+    // Copy the current URL to clipboard
+    navigator.clipboard.writeText(window.location.href);
+    alert('Collaboration link copied to clipboard! Share it with others to collaborate.');
+  }, []);
+
+  // Handle download button click
+  const handleDownload = useCallback(() => {
+    exportDiagramAsJPEG(`sequence-diagram-${collaborationId}.jpg`);
+  }, [collaborationId]);
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Collaborative Sequence Diagram Editor</h1>
         <div className="session-info">
-          Session ID: <code>{collaborationId}</code>
-          <button 
-            className="share-button"
-            onClick={() => {
-              // Copy the current URL to clipboard
-              navigator.clipboard.writeText(window.location.href);
-              alert('Collaboration link copied to clipboard! Share it with others to collaborate.');
-            }}
-          >
-            <FiShare2 className="button-icon" /> Share
+          <span>Session ID:</span>
+          <code>{collaborationId}</code>
+          <button className="share-button" onClick={handleShare}>
+            <FiShare2 className="button-icon" />
+            Share
           </button>
-          <button 
-            className="download-button"
-            onClick={() => exportDiagramAsJPEG(`sequence-diagram-${collaborationId}.jpg`)}
-            title="Download as JPEG"
-          >
-            <FiDownload className="button-icon" /> Download
+          <button className="download-button" onClick={handleDownload}>
+            <FiDownload className="button-icon" />
+            Download
           </button>
         </div>
       </header>
-      <div 
-        id="split-container" 
-        className="split-container"
-        onMouseUp={handleMouseUp}
-      >
-        <div 
-          className="panel left-panel" 
-          style={{ width: `${panelSizes.left}%` }}
-        >
+      
+      <DiagramToolbar onInsertCode={handleInsertCode} />
+      
+      <div id="split-container" className="split-container">
+        <div className="panel left-panel" style={{ width: `${panelSizes.left}%` }}>
           <CollabEditor
             ref={editorRef}
-            code={code} 
+            roomId={collaborationId}
+            code={code}
             setCode={handleCodeChange}
             initialCursor={savedCursorPosition.current}
-            roomId={collaborationId}
           />
         </div>
-        
-        <div 
-          className="divider"
-          onMouseDown={handleMouseDown}
-        />
-        
-        <div 
-          className="panel right-panel" 
-          style={{ width: `${panelSizes.right}%` }}
-        >
+        <div className="divider" onMouseDown={handleMouseDown} />
+        <div className="panel right-panel" style={{ width: `${panelSizes.right}%` }}>
           <DiagramRenderer code={code} />
         </div>
       </div>
