@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FiDownload, FiShare2 } from 'react-icons/fi';
+import { FiDownload, FiShare2, FiPlus } from 'react-icons/fi';
 import './App.css';
 import './styles/CollabEditor.css';
 import CollabEditor from './components/CollabEditor';
@@ -20,7 +20,7 @@ function App() {
   // Get ID from URL path parameter
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   // Set collaboration ID from path or generate a new one
   const [collaborationId, setCollaborationId] = useState(() => {
     if (id) {
@@ -40,10 +40,10 @@ function App() {
   const savedCursorPosition = useRef(
     USE_LOCAL_STORAGE ? JSON.parse(localStorage.getItem(CURSOR_STORAGE_KEY) || 'null') : null
   );
-  
+
   // Create a ref for the editor component
   const editorRef = useRef(null);
-  
+
   // Default diagram template
   const defaultDiagram = `participant Alice
 participant Bob
@@ -56,7 +56,7 @@ Note right of John: Rational thoughts prevail!
 John-->>Alice: Great!
 John->>Bob: How about you?
 Bob-->>John: Jolly good!`;
-  
+
   // Load saved code from localStorage (if enabled) or use default
   const [code, setCode] = useState(() => {
     if (USE_LOCAL_STORAGE) {
@@ -71,8 +71,8 @@ Bob-->>John: Jolly good!`;
 
   // Panel size state
   const [panelSizes, setPanelSizes] = useState({
-    left: 50,
-    right: 50,
+    left: 30,
+    right: 70,
   });
 
   const [isDragging, setIsDragging] = useState(false);
@@ -80,15 +80,15 @@ Bob-->>John: Jolly good!`;
   // Handle code changes and trigger auto-save
   const handleCodeChange = useCallback((newCode) => {
     setCode(newCode);
-    
+
     // Don't save to localStorage if disabled
     if (!USE_LOCAL_STORAGE) return;
-    
+
     // Clear any existing timer to avoid multiple saves
     if (autoSaveTimerRef.current) {
       clearTimeout(autoSaveTimerRef.current);
     }
-    
+
     // Setup a new timer for auto-save
     autoSaveTimerRef.current = setTimeout(() => {
       // Save to localStorage if the code has changed
@@ -96,7 +96,7 @@ Bob-->>John: Jolly good!`;
         localStorage.setItem(STORAGE_KEY, newCode);
         console.log('Auto-saved diagram code to localStorage');
       }
-      
+
       // Also save cursor position
       if (editorRef.current) {
         const cursorPosition = editorRef.current.getCursorPosition();
@@ -107,12 +107,12 @@ Bob-->>John: Jolly good!`;
       }
     }, 1000); // Save after 1 second of inactivity
   }, []);
-  
+
   // Save cursor position when window unloads (closes or refreshes)
   useEffect(() => {
     // Skip if localStorage is disabled
     if (!USE_LOCAL_STORAGE) return;
-    
+
     const handleBeforeUnload = () => {
       if (editorRef.current) {
         const cursorPosition = editorRef.current.getCursorPosition();
@@ -121,9 +121,9 @@ Bob-->>John: Jolly good!`;
         }
       }
     };
-    
+
     window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       if (autoSaveTimerRef.current) {
@@ -144,7 +144,7 @@ Bob-->>John: Jolly good!`;
 
     const container = document.getElementById('split-container');
     if (!container) return;
-    
+
     const containerRect = container.getBoundingClientRect();
     const leftPercentage = ((e.clientX - containerRect.left) / containerRect.width) * 100;
 
@@ -181,7 +181,7 @@ Bob-->>John: Jolly good!`;
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, handleDrag]);
-  
+
   // Set cursor position when editor is mounted
   useEffect(() => {
     if (editorRef.current && savedCursorPosition.current) {
@@ -211,26 +211,46 @@ Bob-->>John: Jolly good!`;
     exportDiagramAsJPEG(`sequence-diagram-${collaborationId}.jpg`);
   }, [collaborationId]);
 
+  // Handle new diagram button click
+  const handleNewDiagram = useCallback(() => {
+    // Open a new diagram in a new tab
+    window.open('/', '_blank');
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Collaborative Sequence Diagram Editor</h1>
-        <div className="session-info">
-          <span>Session ID:</span>
-          <code>{collaborationId}</code>
-          <button className="share-button" onClick={handleShare}>
-            <FiShare2 className="button-icon" />
-            Share
-          </button>
-          <button className="download-button" onClick={handleDownload}>
-            <FiDownload className="button-icon" />
-            Download
-          </button>
+        <div className="header-container">
+          <div className="left-buttons">
+            <button className="new-diagram-button" onClick={handleNewDiagram}>
+              <FiPlus className="button-icon" />
+              New Diagram
+            </button>
+          </div>
+
+          <div className="center-content">
+            <h1>Collaborative Sequence Diagram Editor</h1>
+            <div className="session-info">
+              <span>Session ID:</span>
+              <code>{collaborationId}</code>
+            </div>
+          </div>
+
+          <div className="right-buttons">
+            <button className="share-button" onClick={handleShare}>
+              <FiShare2 className="button-icon" />
+              Share
+            </button>
+            <button className="download-button" onClick={handleDownload}>
+              <FiDownload className="button-icon" />
+              Download
+            </button>
+          </div>
         </div>
       </header>
-      
+
       <DiagramToolbar onInsertCode={handleInsertCode} />
-      
+
       <div id="split-container" className="split-container">
         <div className="panel left-panel" style={{ width: `${panelSizes.left}%` }}>
           <CollabEditor
@@ -250,4 +270,4 @@ Bob-->>John: Jolly good!`;
   );
 }
 
-export default App; 
+export default App;
